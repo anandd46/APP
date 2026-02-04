@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>GuruCode AI</title>
+    <link rel="icon" href="🤖">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f7fb;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 260px;
+            background: #1f2937;
+            color: #ffffff;
+            padding: 20px;
+        }
+
+        .sidebar h3 {
+            margin-top: 0;
+        }
+
+        .sidebar label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 5px;
+        }
+
+        .sidebar select {
+            width: 100%;
+            padding: 8px;
+            border-radius: 5px;
+            border: none;
+        }
+
+        /* Main Content */
+        .main {
+            flex: 1;
+            padding: 30px;
+        }
+
+        h1 {
+            margin-top: 0;
+        }
+
+        hr {
+            margin: 20px 0;
+        }
+
+        select, textarea, button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+        }
+
+        textarea {
+            resize: vertical;
+        }
+
+        button {
+            background: #2563eb;
+            color: white;
+            cursor: pointer;
+            border: none;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+
+        .message {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 6px;
+            white-space: pre-wrap;
+        }
+
+        .success {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .info {
+            background: #e0f2fe;
+            color: #075985;
+        }
+
+        .warning {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        footer {
+            margin-top: 40px;
+            color: #555;
+            font-size: 13px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h3>Choose Mode</h3>
+        <select id="mode">
+            <option>Concept Explanation</option>
+            <option>Code Debugging</option>
+        </select>
+
+        <label>Explanation Language</label>
+        <select id="language">
+            <option>English</option>
+            <option>Hindi</option>
+        </select>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main">
+        <h1>🤖 GuruCode AI</h1>
+        <h3>AI Mentor for Learning & Developer Productivity</h3>
+
+        <hr>
+
+        <!-- Concept Explanation Section -->
+        <div id="concept-section">
+            <h2>📘 Learn a Programming Concept</h2>
+
+            <select id="topic">
+                <option>Binary Search</option>
+                <option>Bubble Sort</option>
+                <option>Recursion</option>
+            </select>
+
+            <button onclick="explainConcept()">Explain Concept</button>
+
+            <div id="concept-output"></div>
+        </div>
+
+        <!-- Code Debugging Section -->
+        <div id="debug-section" style="display:none;">
+            <h2>🛠️ AI Code Debugger</h2>
+
+            <textarea id="code" rows="10" placeholder="Paste your code here"></textarea>
+
+            <button onclick="analyzeCode()">Analyze Code</button>
+
+            <div id="debug-output"></div>
+        </div>
+
+        <hr>
+
+        <footer>
+            Built for AI for Bharat Hackathon | Student Track
+        </footer>
+    </div>
+</div>
+
+<script>
+    const modeSelect = document.getElementById("mode");
+    const conceptSection = document.getElementById("concept-section");
+    const debugSection = document.getElementById("debug-section");
+
+    modeSelect.addEventListener("change", () => {
+        if (modeSelect.value === "Concept Explanation") {
+            conceptSection.style.display = "block";
+            debugSection.style.display = "none";
+        } else {
+            conceptSection.style.display = "none";
+            debugSection.style.display = "block";
+        }
+    });
+
+    function explainConcept() {
+        const topic = document.getElementById("topic").value;
+        const language = document.getElementById("language").value;
+        const output = document.getElementById("concept-output");
+
+        const explanations = {
+            "Binary Search": {
+                "English": "Binary Search is an efficient algorithm that finds an element in a sorted list by repeatedly dividing the search range into half.",
+                "Hindi": "Binary Search ek efficient algorithm hai jo sorted list me element ko aadha-aadha divide karke dhoondta hai."
+            },
+            "Bubble Sort": {
+                "English": "Bubble Sort repeatedly swaps adjacent elements if they are in the wrong order.",
+                "Hindi": "Bubble Sort ek simple sorting technique hai jisme adjacent elements ko swap kiya jata hai."
+            },
+            "Recursion": {
+                "English": "Recursion is a technique where a function calls itself to solve a problem.",
+                "Hindi": "Recursion ek technique hai jisme function khud ko call karta hai."
+            }
+        };
+
+        const text = explanations[topic]?.[language] || "Explanation not available for this topic.";
+
+        output.innerHTML = `
+            <div class="message success">
+                <strong>Explanation Generated</strong><br><br>
+                ${text}
+            </div>
+        `;
+    }
+
+    function analyzeCode() {
+        const code = document.getElementById("code").value;
+        const output = document.getElementById("debug-output");
+
+        if (code.trim() === "") {
+            output.innerHTML = `
+                <div class="message warning">
+                    Please enter some code.
+                </div>
+            `;
+            return;
+        }
+
+        let result = "";
+
+        if (code.includes("IndexError")) {
+            result =
+                "❌ Error Type: Index Error\n\n" +
+                "📌 Reason: You are accessing a list index that does not exist.\n\n" +
+                "✅ Solution: Check the list length before accessing elements.";
+        }
+        else if (code.includes("for i in range(10)")) {
+            result =
+                "⚠️ Possible Logical Error\n\n" +
+                "📌 Reason: Loop runs fixed times regardless of list size.\n\n" +
+                "✅ Solution: Use range(len(list_name)) instead.";
+        }
+        else if (code.includes("==") && !code.replace("==", "").includes("=")) {
+            result =
+                "❌ Syntax Error\n\n" +
+                "📌 Reason: Assignment operator (=) is missing.\n\n" +
+                "✅ Solution: Use '=' for assignment and '==' for comparison.";
+        }
+        else {
+            result =
+                "ℹ️ No syntax error detected.\n\n" +
+                "If output is incorrect, check logic or conditions.";
+        }
+
+        output.innerHTML = `
+            <div class="message info">
+                <strong>Analysis Result</strong><br><br>
+                ${result}
+            </div>
+        `;
+    }
+</script>
+
+</body>
+</html>
