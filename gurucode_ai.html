@@ -2,169 +2,527 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>GuruCode AI</title>
-    <link rel="icon" href="🤖">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GuruCode AI | Advanced Mentor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body {
+        :root {
+            --bg-main: #0B0F19;
+            --bg-panel: rgba(20, 27, 45, 0.65);
+            --bg-card: rgba(30, 41, 59, 0.5);
+            --primary: #6366f1;
+            --primary-glow: rgba(99, 102, 241, 0.5);
+            --secondary: #ec4899;
+            --text-bright: #ffffff;
+            --text-normal: #cbd5e1;
+            --text-muted: #64748b;
+            --border-color: rgba(255, 255, 255, 0.08);
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --info: #3b82f6;
+        }
+
+        * {
+            box-sizing: border-box;
             margin: 0;
-            font-family: Arial, Helvetica, sans-serif;
-            background: #f5f7fb;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-normal);
+            min-height: 100vh;
+            display: flex;
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(99, 102, 241, 0.15), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(236, 72, 153, 0.15), transparent 25%);
+            background-attachment: fixed;
+            overflow-x: hidden;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 0 0 0 var(--primary-glow); }
+            70% { box-shadow: 0 0 15px 5px transparent; }
+            100% { box-shadow: 0 0 0 0 transparent; }
+        }
+        
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
         }
 
         .container {
             display: flex;
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
             min-height: 100vh;
         }
 
-        /* Sidebar */
         .sidebar {
-            width: 260px;
-            background: #1f2937;
-            color: #ffffff;
-            padding: 20px;
+            width: 300px;
+            background: var(--bg-panel);
+            border-right: 1px solid var(--border-color);
+            padding: 2.5rem 2rem;
+            display: flex;
+            flex-direction: column;
+            animation: slideInRight 0.6s ease-out;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 10;
         }
 
-        .sidebar h3 {
-            margin-top: 0;
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 3rem;
+            color: var(--text-bright);
         }
+
+        .logo i {
+            font-size: 2.2rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 2px 10px rgba(99, 102, 241, 0.4));
+        }
+
+        .logo h2 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .sidebar-section {
+            margin-bottom: 2rem;
+            animation: fadeIn 0.6s ease-out backwards;
+        }
+
+        .sidebar-section:nth-child(2) { animation-delay: 0.1s; }
+        .sidebar-section:nth-child(3) { animation-delay: 0.2s; }
 
         .sidebar label {
             display: block;
-            margin-top: 15px;
-            margin-bottom: 5px;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            margin-bottom: 0.75rem;
+            font-weight: 600;
         }
 
-        .sidebar select {
+        .custom-select {
+            position: relative;
             width: 100%;
-            padding: 8px;
-            border-radius: 5px;
-            border: none;
         }
 
-        /* Main Content */
+        .custom-select select {
+            appearance: none;
+            width: 100%;
+            padding: 14px 16px;
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            color: var(--text-bright);
+            font-family: inherit;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .custom-select select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+        }
+
+        .custom-select::after {
+            content: '\f107';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            pointer-events: none;
+            transition: transform 0.3s ease;
+        }
+
+        .custom-select select:focus + ::after {
+            transform: translateY(-50%) rotate(180deg);
+        }
+
+        .sidebar-footer {
+            margin-top: auto;
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            opacity: 0.7;
+        }
+
         .main {
             flex: 1;
-            padding: 30px;
+            padding: 3.5rem 4rem;
+            position: relative;
+            height: 100vh;
+            overflow-y: auto;
         }
 
-        h1 {
-            margin-top: 0;
+        .header {
+            margin-bottom: 3rem;
+            animation: fadeIn 0.6s ease-out;
         }
 
-        hr {
-            margin: 20px 0;
+        .header h1 {
+            font-size: 2.8rem;
+            color: var(--text-bright);
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+            letter-spacing: -1px;
         }
 
-        select, textarea, button {
-            width: 100%;
+        .header h1 span {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header p {
+            font-size: 1.15rem;
+            color: var(--text-muted);
+        }
+
+        .content-section {
+            display: none;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .card-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--text-bright);
+            font-size: 1.4rem;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            font-weight: 600;
+        }
+
+        .card-title i {
+            color: var(--primary);
+            background: rgba(99, 102, 241, 0.1);
             padding: 10px;
-            margin-top: 10px;
-            border-radius: 6px;
-            border: 1px solid #ccc;
-            font-size: 14px;
+            border-radius: 10px;
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
         }
 
         textarea {
+            width: 100%;
+            height: 220px;
+            padding: 1.2rem;
+            background: #0d1117;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            color: #e6edf3;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            line-height: 1.6;
             resize: vertical;
+            transition: all 0.3s ease;
+            outline: none;
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.2);
         }
 
-        button {
-            background: #2563eb;
+        textarea:focus {
+            border-color: var(--primary);
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.2), 0 0 0 3px rgba(99, 102, 241, 0.2);
+        }
+
+        .btn {
+            background: linear-gradient(135deg, var(--primary), #4f46e5);
             color: white;
-            cursor: pointer;
             border: none;
+            padding: 14px 32px;
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 1.05rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            animation: pulseGlow 3s infinite;
         }
 
-        button:hover {
-            background: #1d4ed8;
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3);
+            background: linear-gradient(135deg, #4f46e5, #4338ca);
         }
 
-        .message {
-            margin-top: 15px;
-            padding: 12px;
+        .btn:active {
+            transform: translateY(1px);
+        }
+
+        .btn i {
+            transition: transform 0.3s ease;
+        }
+
+        .btn:hover i {
+            transform: translateX(4px);
+        }
+
+        .output-area {
+            margin-top: 2rem;
+            border-radius: 16px;
+            overflow: hidden;
+            display: none;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.5s ease;
+        }
+
+        .output-area.show {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .explanation-box {
+            background: rgba(16, 185, 129, 0.05);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-left: 4px solid var(--success);
+            padding: 2rem;
+            border-radius: 12px;
+        }
+        
+        .explanation-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--success);
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+        }
+
+        .explanation-content {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-normal);
+        }
+
+        .explanation-content p {
+            margin-bottom: 1.2rem;
+        }
+        
+        .explanation-content .highlight {
+            background: rgba(99, 102, 241, 0.15);
+            color: #a5b4fc;
+            padding: 3px 8px;
             border-radius: 6px;
-            white-space: pre-wrap;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9em;
+            border: 1px solid rgba(99, 102, 241, 0.3);
         }
 
-        .success {
-            background: #dcfce7;
-            color: #166534;
+        .terminal {
+            background: #0d1117;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
-        .info {
-            background: #e0f2fe;
-            color: #075985;
+        .terminal-header {
+            background: #161b22;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid var(--border-color);
         }
 
-        .warning {
-            background: #fef3c7;
-            color: #92400e;
+        .mac-btn {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        .mac-btn.close { background: #ff5f56; }
+        .mac-btn.min { background: #ffbd2e; }
+        .mac-btn.max { background: #27c93f; }
+
+        .terminal-title {
+            margin-left: 10px;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            font-family: 'JetBrains Mono', monospace;
         }
 
-        footer {
-            margin-top: 40px;
-            color: #555;
-            font-size: 13px;
-            text-align: center;
+        .terminal-body {
+            padding: 1.5rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            min-height: 150px;
         }
+
+        .log-line {
+            margin-bottom: 8px;
+            opacity: 0;
+            transform: translateX(-10px);
+            animation: slideInRight 0.3s ease forwards;
+        }
+
+        .log-info { color: var(--info); }
+        .log-error { color: var(--danger); }
+        .log-warning { color: var(--warning); }
+        .log-success { color: var(--success); }
+        .log-text { color: var(--text-normal); }
+        .log-muted { color: var(--text-muted); }
+        
+        .loading-spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-main); }
+        ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.2); }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <!-- Sidebar -->
     <div class="sidebar">
-        <h3>Choose Mode</h3>
-        <select id="mode">
-            <option>Concept Explanation</option>
-            <option>Code Debugging</option>
-        </select>
+        <div class="logo">
+            <i class="fa-solid fa-robot"></i>
+            <h2>GuruCode AI</h2>
+        </div>
 
-        <label>Explanation Language</label>
-        <select id="language">
-            <option>English</option>
-            <option>Hindi</option>
-        </select>
+        <div class="sidebar-section">
+            <label>Mode Selection</label>
+            <div class="custom-select">
+                <select id="mode">
+                    <option value="concept">Concept Explanation</option>
+                    <option value="debug">Code Debugging</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="sidebar-section">
+            <label>Explanation Language</label>
+            <div class="custom-select">
+                <select id="language">
+                    <option value="English">English</option>
+                    <option value="Hindi">Hindi</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="sidebar-footer">
+            Built for AI for Bharat Hackathon<br>Student Track
+        </div>
     </div>
 
-    <!-- Main Content -->
     <div class="main">
-        <h1>🤖 GuruCode AI</h1>
-        <h3>AI Mentor for Learning & Developer Productivity</h3>
-
-        <hr>
-
-        <!-- Concept Explanation Section -->
-        <div id="concept-section">
-            <h2>📘 Learn a Programming Concept</h2>
-
-            <select id="topic">
-                <option>Binary Search</option>
-                <option>Bubble Sort</option>
-                <option>Recursion</option>
-            </select>
-
-            <button onclick="explainConcept()">Explain Concept</button>
-
-            <div id="concept-output"></div>
+        <div class="header">
+            <h1>Welcome to <span>GuruCode</span></h1>
+            <p>Your AI-powered mentor for learning concepts and debugging code seamlessly.</p>
         </div>
 
-        <!-- Code Debugging Section -->
-        <div id="debug-section" style="display:none;">
-            <h2>🛠️ AI Code Debugger</h2>
+        <div id="concept-section" class="content-section active">
+            <div class="card">
+                <div class="card-title">
+                    <i class="fa-solid fa-book-open"></i>
+                    Learn a Programming Concept
+                </div>
 
-            <textarea id="code" rows="10" placeholder="Paste your code here"></textarea>
+                <div class="input-group">
+                    <div class="custom-select">
+                        <select id="topic">
+                            <option>Binary Search</option>
+                            <option>Bubble Sort</option>
+                            <option>Recursion</option>
+                        </select>
+                    </div>
+                </div>
 
-            <button onclick="analyzeCode()">Analyze Code</button>
+                <button class="btn" onclick="explainConcept()">
+                    Generate Explanation <i class="fa-solid fa-arrow-right"></i>
+                </button>
 
-            <div id="debug-output"></div>
+                <div id="concept-output" class="output-area"></div>
+            </div>
         </div>
 
-        <hr>
+        <div id="debug-section" class="content-section">
+            <div class="card">
+                <div class="card-title">
+                    <i class="fa-solid fa-bug"></i>
+                    AI Code Debugger
+                </div>
 
-        <footer>
-            Built for AI for Bharat Hackathon | Student Track
-        </footer>
+                <div class="input-group">
+                    <textarea id="code" placeholder="# Paste your Python code here...&#10;&#10;def my_function():&#10;    # Write something awesome"></textarea>
+                </div>
+
+                <button class="btn" onclick="analyzeCode()" id="analyze-btn">
+                    Analyze Code <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+
+                <div id="debug-output" class="output-area"></div>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -173,91 +531,167 @@
     const conceptSection = document.getElementById("concept-section");
     const debugSection = document.getElementById("debug-section");
 
-    modeSelect.addEventListener("change", () => {
-        if (modeSelect.value === "Concept Explanation") {
-            conceptSection.style.display = "block";
-            debugSection.style.display = "none";
+    modeSelect.addEventListener("change", (e) => {
+        if (e.target.value === "concept") {
+            conceptSection.classList.add("active");
+            debugSection.classList.remove("active");
         } else {
-            conceptSection.style.display = "none";
-            debugSection.style.display = "block";
+            conceptSection.classList.remove("active");
+            debugSection.classList.add("active");
         }
     });
+
+    const explanations = {
+        "Binary Search": {
+            "English": `
+                <p>Imagine looking for a word in a dictionary. You don't start from page 1 and read every single page. Instead, you open it in the middle. If the word comes <em>before</em> the page you're on, you ignore the right half and focus only on the left half. You keep halving the remaining pages until you find your word!</p>
+                <p>In programming, <span class="highlight">Binary Search</span> is an algorithm that finds a target value within a <strong>sorted array</strong> by repeatedly dividing the search interval in half.</p>
+                <p><strong>Why it's awesome:</strong> It is incredibly fast. Even if you have a million items, it only takes at most 20 guesses to find what you're looking for!</p>
+            `,
+            "Hindi": `
+                <p>Socho aap dictionary mein ek word dhoondh rahe ho. Aap page 1 se har ek word nahi padhte. Balki, aap dictionary ko beech se kholte ho. Agar aapka word us page se <em>pehle</em> aata hai, toh aap right half ko chhod kar sirf left half mein dhoondhte ho. Aap aise hi aadha karte rehte ho jab tak word mil na jaye!</p>
+                <p>Programming mein, <span class="highlight">Binary Search</span> ek algorithm hai jo kisi <strong>sorted array (kram mein lagayi list)</strong> mein ek value ko dhoondhta hai. Yeh baar-baar list ko aadha karke search area ko chhota karta hai.</p>
+                <p><strong>Yeh itna khaas kyun hai?</strong> Yeh bahut tez hai! Agar aapke paas 10 lakh items bhi hain, toh isko apna target dhoondhne mein zyada se zyada 20 guesses (attempts) lagenge!</p>
+            `
+        },
+        "Bubble Sort": {
+            "English": `
+                <p>Imagine a line of students arranged by height. You compare the first two; if the left one is taller, they swap places. You keep doing this for every adjacent pair until the tallest student "bubbles up" to the very end of the line.</p>
+                <p><span class="highlight">Bubble Sort</span> is a simple sorting algorithm that repeatedly steps through the list, compares adjacent elements and swaps them if they are in the wrong order.</p>
+                <p><strong>Note:</strong> While it is easy to understand for beginners, it is quite slow for large lists, so it is rarely used in real-world applications.</p>
+            `,
+            "Hindi": `
+                <p>Socho bachhon ki ek line height ke hisaab se lagani hai. Aap pehle do bachhon ko dekhte ho, agar pehla lamba hai toh dono ki jagah badal dete ho (swap). Aise hi karte karte sabse lamba baccha line ke end tak pahunch jata hai, jaise paani mein bulbula (bubble) upar aata hai.</p>
+                <p><span class="highlight">Bubble Sort</span> ek aasaan sorting algorithm hai jo list mein saath-saath wale elements ko compare karta hai aur agar wo galat order mein hain, toh unhe swap kar deta hai.</p>
+                <p><strong>Dhyan dein:</strong> Yeh seekhne ke liye achha hai, par badi lists ke liye bahut slow hota hai, isliye real-world apps mein kam use hota hai.</p>
+            `
+        },
+        "Recursion": {
+            "English": `
+                <p>Recursion is like placing two mirrors facing each other—you see an infinite reflection! In programming, it happens when a function calls <strong>itself</strong> to solve a smaller piece of a larger problem.</p>
+                <p>Every recursive function must have a <span class="highlight">Base Case</span>. This is a condition that tells the function to stop calling itself. Without it, the function would run forever and crash your program (known as a Stack Overflow).</p>
+                <p><strong>Example:</strong> Calculating factorials or exploring a maze are classic problems easily solved using recursion.</p>
+            `,
+            "Hindi": `
+                <p>Recursion aisa hai jaise do aamne-saamne rakhe hue sheeshe—jisme endless reflections dikhti hain! Programming mein, yeh tab hota hai jab koi function kisi badi problem ko chhota karne ke liye <strong>khud ko hi call karta hai</strong>.</p>
+                <p>Har recursive function mein ek <span class="highlight">Base Case</span> hona zaroori hai. Yeh wo condition hai jo function ko rukne ke liye kehti hai. Agar yeh nahi hoga, toh function kabhi nahi rukega aur program crash ho jayega (jise Stack Overflow kehte hain).</p>
+                <p><strong>Udaharan:</strong> Factorial nikalna ya kisi maze (bhool-bhulaiya) ka rasta dhoondhna recursion se aasaani se solve ho jata hai.</p>
+            `
+        }
+    };
 
     function explainConcept() {
         const topic = document.getElementById("topic").value;
         const language = document.getElementById("language").value;
         const output = document.getElementById("concept-output");
 
-        const explanations = {
-            "Binary Search": {
-                "English": "Binary Search is an efficient algorithm that finds an element in a sorted list by repeatedly dividing the search range into half.",
-                "Hindi": "Binary Search ek efficient algorithm hai jo sorted list me element ko aadha-aadha divide karke dhoondta hai."
-            },
-            "Bubble Sort": {
-                "English": "Bubble Sort repeatedly swaps adjacent elements if they are in the wrong order.",
-                "Hindi": "Bubble Sort ek simple sorting technique hai jisme adjacent elements ko swap kiya jata hai."
-            },
-            "Recursion": {
-                "English": "Recursion is a technique where a function calls itself to solve a problem.",
-                "Hindi": "Recursion ek technique hai jisme function khud ko call karta hai."
-            }
-        };
+        const text = explanations[topic]?.[language] || "Explanation not available.";
 
-        const text = explanations[topic]?.[language] || "Explanation not available for this topic.";
-
-        output.innerHTML = `
-            <div class="message success">
-                <strong>Explanation Generated</strong><br><br>
-                ${text}
-            </div>
-        `;
+        output.classList.remove("show");
+        
+        setTimeout(() => {
+            output.innerHTML = `
+                <div class="explanation-box">
+                    <div class="explanation-header">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                        Concept Unlocked: ${topic}
+                    </div>
+                    <div class="explanation-content">
+                        ${text}
+                    </div>
+                </div>
+            `;
+            output.classList.add("show");
+        }, 100);
     }
 
     function analyzeCode() {
         const code = document.getElementById("code").value;
         const output = document.getElementById("debug-output");
+        const btn = document.getElementById("analyze-btn");
 
         if (code.trim() === "") {
-            output.innerHTML = `
-                <div class="message warning">
-                    Please enter some code.
-                </div>
-            `;
+            showTerminalOutput([
+                { type: "error", text: "[✖] Error: No code provided. Please paste your code to analyze." }
+            ]);
             return;
         }
 
-        let result = "";
+        // UI Loading state
+        btn.innerHTML = '<span class="loading-spinner"></span> Analyzing...';
+        btn.disabled = true;
+        output.classList.remove("show");
 
-        if (code.includes("IndexError")) {
-            result =
-                "❌ Error Type: Index Error\n\n" +
-                "📌 Reason: You are accessing a list index that does not exist.\n\n" +
-                "✅ Solution: Check the list length before accessing elements.";
-        }
-        else if (code.includes("for i in range(10)")) {
-            result =
-                "⚠️ Possible Logical Error\n\n" +
-                "📌 Reason: Loop runs fixed times regardless of list size.\n\n" +
-                "✅ Solution: Use range(len(list_name)) instead.";
-        }
-        else if (code.includes("==") && !code.replace("==", "").includes("=")) {
-            result =
-                "❌ Syntax Error\n\n" +
-                "📌 Reason: Assignment operator (=) is missing.\n\n" +
-                "✅ Solution: Use '=' for assignment and '==' for comparison.";
-        }
-        else {
-            result =
-                "ℹ️ No syntax error detected.\n\n" +
-                "If output is incorrect, check logic or conditions.";
-        }
+        setTimeout(() => {
+            let logs = [];
+            logs.push({ type: "info", text: "[*] Initializing AI Debugger Agent..." });
+            logs.push({ type: "text", text: "[*] Parsing Abstract Syntax Tree (AST)..." });
 
-        output.innerHTML = `
-            <div class="message info">
-                <strong>Analysis Result</strong><br><br>
-                ${result}
+            if (code.includes("IndexError")) {
+                logs.push({ type: "success", text: "[✓] Syntax parsing completed." });
+                logs.push({ type: "error", text: "[✖] Critical Issue Detected: IndexError" });
+                logs.push({ type: "muted", text: "----------------------------------------" });
+                logs.push({ type: "text", text: "<strong>Diagnosis:</strong> You are attempting to access an index in a list/array that is out of bounds." });
+                logs.push({ type: "warning", text: "<strong>AI Suggestion:</strong> Ensure your index variable is strictly less than the length of the array (e.g., <span class='highlight'>index &lt; len(my_list)</span>)." });
+            }
+            else if (code.includes("for i in range(10)")) {
+                logs.push({ type: "success", text: "[✓] Syntax parsing completed." });
+                logs.push({ type: "warning", text: "[!] Logical Warning Detected: Hardcoded Range" });
+                logs.push({ type: "muted", text: "----------------------------------------" });
+                logs.push({ type: "text", text: "<strong>Diagnosis:</strong> Your loop runs a fixed number of times (10), regardless of the actual data size." });
+                logs.push({ type: "warning", text: "<strong>AI Suggestion:</strong> Make it dynamic by using the length of your collection: <span class='highlight'>for i in range(len(my_list)):</span>" });
+            }
+            else if (code.includes("==") && !code.replace("==", "").includes("=")) {
+                logs.push({ type: "error", text: "[✖] Syntax Error: Invalid Assignment" });
+                logs.push({ type: "muted", text: "----------------------------------------" });
+                logs.push({ type: "text", text: "<strong>Diagnosis:</strong> You might be using the equality operator (==) where an assignment operator (=) is required." });
+                logs.push({ type: "warning", text: "<strong>AI Suggestion:</strong> Use '=' to assign a value to a variable, and '==' only inside conditionals like if-statements." });
+            }
+            else {
+                logs.push({ type: "success", text: "[✓] Syntax parsing completed." });
+                logs.push({ type: "success", text: "[✓] No obvious errors or warnings detected." });
+                logs.push({ type: "muted", text: "----------------------------------------" });
+                logs.push({ type: "text", text: "<strong>Status:</strong> Your code looks structurally sound. If outputs are unexpected, review your algorithmic logic or edge cases." });
+            }
+
+            showTerminalOutput(logs);
+            
+            btn.innerHTML = 'Analyze Code <i class="fa-solid fa-magnifying-glass"></i>';
+            btn.disabled = false;
+        }, 1200);
+    }
+
+    function showTerminalOutput(logs) {
+        const output = document.getElementById("debug-output");
+        
+        let html = `
+            <div class="terminal">
+                <div class="terminal-header">
+                    <div class="mac-btn close"></div>
+                    <div class="mac-btn min"></div>
+                    <div class="mac-btn max"></div>
+                    <div class="terminal-title">bash - gurucode-agent - 80x24</div>
+                </div>
+                <div class="terminal-body" id="terminal-lines">
+                </div>
             </div>
         `;
+        
+        output.innerHTML = html;
+        output.classList.add("show");
+
+        const terminalBody = document.getElementById("terminal-lines");
+        
+        logs.forEach((log, index) => {
+            setTimeout(() => {
+                const line = document.createElement("div");
+                line.className = `log-line log-${log.type}`;
+                line.innerHTML = log.text;
+                terminalBody.appendChild(line);
+                // Scroll to bottom
+                terminalBody.scrollTop = terminalBody.scrollHeight;
+            }, index * 300); // Stagger line appearance for cool effect
+        });
     }
 </script>
 
