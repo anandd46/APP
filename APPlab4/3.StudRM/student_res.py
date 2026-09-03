@@ -1,25 +1,19 @@
-def cal_total(marks):
-    """Return the total of all subject marks."""
+def calculate_total(marks):
     return sum(marks)
-
-
-def cal_percentage(marks):
-    """Return the average percentage, assuming each subject is out of 100."""
-    if not marks:
-        return 0.0
-
-    return cal_total(marks) / len(marks)
-
-
-def cal_grade(percentage):
-    """Return a grade based on the percentage."""
-    if percentage >= 90:
+def calculate_percent(marks):
+    return sum(marks)/len(marks)
+def calculate_grade(percent):
+    if percent>=95:
         return "O"
-    elif percentage >= 80:
+    elif percent>=90:
         return "A+"
-    elif percentage >= 70:
+    elif percent>=80:
         return "A"
-    elif percentage >= 60:
+    elif percent>=70:
+        return "B+"
+    elif percent>=60:
         return "B"
+    elif percent>=50:
+        return "P"
     else:
         return "F"
