@@ -5,6 +5,6 @@ from employee import employee_details
 salary = calculate_salary(50000, 10000)
 bonus = calculate_bonus(salary, 6)
 
-employee_details("Likhitha", "IT", salary, 6)
+employee_details("Anand", "IT", salary, 6)
 
 print("Bonus:", bonus)
