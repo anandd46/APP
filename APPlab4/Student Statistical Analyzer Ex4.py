@@ -1,3 +1,4 @@
+
 import statistics as s
 marks=list(map(int,input("Enter marks seperated by spaces:").split()))
 print("\n----Statistical Analysis---")
