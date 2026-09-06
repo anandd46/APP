@@ -1,4 +1,3 @@
-
 from university.student import student_details
 from university.result import calculate_percentage
 
