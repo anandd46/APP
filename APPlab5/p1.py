@@ -1,4 +1,3 @@
-
 # Open the file in write mode.
 # If the file does not exist, it will be created.
 # If it exists, old data will be erased.
