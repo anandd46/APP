@@ -3,7 +3,6 @@ age=int(input("Enter your age: "))
 if age>=18:
     print("You are eligible to vote.")
 
-
 # Exam Pass/Fail Check
 marks=int(input("Enter your marks: "))
 if marks>=50:
