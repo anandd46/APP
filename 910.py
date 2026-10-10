@@ -4,3 +4,4 @@ with open("std.txt","w") as f:
         f.write(i+"\n")
 print("student names are written successfully in std.txt file")
 print("file close",f.closed)
+
