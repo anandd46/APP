@@ -5,3 +5,4 @@ with open("std.txt","w") as f:
 print("student names are written successfully in std.txt file")
 print("file close",f.closed)
 
+
