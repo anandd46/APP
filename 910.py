@@ -6,3 +6,4 @@ print("student names are written successfully in std.txt file")
 print("file close",f.closed)
 
 
+
