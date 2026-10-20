@@ -9,7 +9,6 @@
 
 
 
-
 with open("agecl.png", "rb") as sf:
     with open("op.png", "wb") as df:
         chunkcount = 1
